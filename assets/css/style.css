@@ -1,0 +1,93 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.header {
+    background-image: linear-gradient(to right, #495cb2, #23175c);
+}
+
+.header h1 {
+    font-size: 3rem;
+    padding: .2rem;
+    color: white;
+}
+
+h5 {
+    margin-top: -2px;
+}
+
+.btn {
+    width: 98%;
+    margin-top: 26px;
+    margin-bottom: 26px;
+    height: 3rem;
+}
+
+.search {
+    background-color: #7192dd;
+}
+
+.saved-cities {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #aeaeae;
+    color: #262728;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    vertical-align: middle;
+}
+
+.input-field {
+margin-top: 21px;
+}
+
+#city-name {
+    width: 98%;
+    height: 3rem;
+    border: 2px solid #aeaeae;
+
+    border-radius: 5px;
+
+    padding-right: 0px;
+    margin-right: 0px;
+
+}
+
+input::placeholder {
+    padding: 5px;
+    color: #848484;   
+}
+
+hr {
+    margin-top: -15px;
+    background-color: #aeaeae;
+    width: 98%;
+    margin-left: 0px;
+}
+
+.cities {
+height: 1800px;
+}
+
+.today {
+    border: 2px solid #aeaeae;
+    justify-content: space-around;
+    width: calc((100%) + 7px);
+    margin-left: -5px;
+}
+
+.future {
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.card {
+    width:18%;
+    background-color: #323d43;
+    height:250px;
+}
+#crnt-city{
+    display: flex;
+    align-items: center;
+}
