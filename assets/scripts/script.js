@@ -71,7 +71,7 @@ function secondAPICall(queryString) {
             var currentData;
             currentData = data
             weatherIcon="https://openweathermap.org/img/wn/"+currentData.weather[0].icon+".png"
-            $("#crnt-city").text(currentData.name+" ("+dayjs.unix(currentData.dt).format('DD/M/YYYY')+")")
+            $("#crnt-city").text(currentData.name+" ("+dayjs.unix(currentData.dt).format('D/M/YYYY')+")")
             $("#crnt-city").append("<img class='reponsive-img' src=" + weatherIcon + ">")
             $("#crnt-temp").text("Temp: " + currentData.main.temp + "°C")
             $("#crnt-wind").text("Wind: " + currentData.wind.speed + " km/h")
