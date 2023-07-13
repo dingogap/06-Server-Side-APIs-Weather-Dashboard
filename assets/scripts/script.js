@@ -1,42 +1,87 @@
 // Globals
-const owUrl = "https://api.openweathermap.org";
-const owApiKey = "fd223c8245ed1b33feec8296469d3041";
+const owUrl = 'https://api.openweathermap.org';
+const owApiKey = 'fd223c8245ed1b33feec8296469d3041';
 
-/* var locationData = {}; */
+var locationData = {};
 var currentData = {};
 var forecastData = {};
+var cities = [];
+
+// Read Cities Collection from Local Storage
+// Reveal Cities Buttons
+cities = JSON.parse(localStorage.getItem('collection'));
+displayCities()
 
 // Click handler for search button - won't work until the page is fully loaded
 $(document).ready(function () {
-    $("#search-btn").click(function () {
-        let city=$("#city-name").val().trim().replaceAll(" ", "%20");
-        firstDataLookup(city);
+    $('#search-btn').click(function () {
+        firstDataLookup($('#location').val().trim().replaceAll(' ', '%20'));
     });
 });
 
-// Check for Enter Key to search for city
-$("#city-name").on("keypress", function (event) {
-    if (event.key === "Enter") {
-        $("#search-btn").click();
+$(".saved-cities").click(function (event) {
+    let j = event.target.value;
+    console.log(j)
+    let lat = cities[j][1];
+    let lon = cities[j][2];
+    secondDataLookup(lat,lon);
+  });
+
+// Check for Enter Key to search for location
+$('#location').on('keypress', function (event) {
+    if (event.key === 'Enter') {
+        $('#search-btn').click();
     }
 });
 
-// Event Handler for clicking in the City Name Input Field
-$("#city-name").click(function () {
-    $("#city-name").val("");
-  });
-  
+// Event Handler for clicking in the Location Input Field
+$('#location').click(function () {
+    $('#location').val('');
+});
 
 // Builds the query string to search for the city and return lat/long
-function firstDataLookup(city) {
-    const state = "";
-    const country = "Au";
-    const location = city + "," + state + "," + country;
-    const searchString = owUrl + "/geo/1.0/direct?q=" + location + "&limit=1&apikey=" + owApiKey;
+// will accept city, city/country or city/state/country, delimited by commas
+function firstDataLookup(target) {
+    console.log(cities)
+    let state;
+    let country;
+    let city;
+    if (target.includes(',')) {                  // check if state &/or country supplied
+        let fullLocation = target.split(',')
+        console.log(fullLocation)
+        if (fullLocation.length === 2) {         // City & Country
+            city = fullLocation[0];
+            state = fullLocation[1];
+            country = fullLocation[2];
+        } else if (fullLocation.length === 3) {  // City, State & Country
+            city = fullLocation[0];
+            state = '';
+            country = fullLocation[1];
+        } else {                                 // Invalid location data supplied
+        }
+    } else {
+        city = target;
+        state = '';
+        country = 'au';
+    }
+    const searchString = owUrl + '/geo/1.0/direct?q=' + city + ',' + state + ',' + country + '&limit=1&apikey=' + owApiKey;
     firstAPICall(searchString);
 }
 
-// Search ow for city location data
+// Builds the Query String to retrieve current weather in metric
+function secondDataLookup(lat, lon) {
+    const searchString =
+        owUrl +
+        "/data/2.5/weather?lat=" +
+        lat +
+        "&lon=" +
+        lon +
+        "&appid=" +
+        owApiKey +
+        "&units=metric";
+    secondAPICall(searchString);
+}
+// Search OpenWeather for location data
 function firstAPICall(queryString) {
     fetch(queryString, {
         method: "GET",
@@ -48,22 +93,8 @@ function firstAPICall(queryString) {
         })
         .then(function (data) {
             firstDataSave(data[0]);
-            secondDataLookup(data[0].lat, data[0].lon);
+            secondDataLookup(locationData.lat, locationData.lon);
         });
-}
-
-// Builds the Query String to reteive current weather in metric
-function secondDataLookup(lat, lon) {
-    const owGeoData =
-        owUrl +
-        "/data/2.5/weather?lat=" +
-        lat +
-        "&lon=" +
-        lon +
-        "&appid=" +
-        owApiKey +
-        "&units=metric";
-    secondAPICall(owGeoData);
 }
 
 function secondAPICall(queryString) {
@@ -77,67 +108,62 @@ function secondAPICall(queryString) {
         })
         .then(function (data) {
             secondDataSave(data);
-            thirdDataLookup(locationData.lat, locationData.lon);
+            /* thirdDataLookup(locationData.lat, locationData.lon); */
         });
 }
 
-// Builds the Query String to reteive current weather in metric
-function thirdDataLookup(lat, lon) {
-    owGeoData =
-        owUrl +
-        "/data/2.5/forecast?lat=" +
-        lat +
-        "&lon=" +
-        lon +
-        "&appid=" +
-        owApiKey +
-        "&units=metric";
-    thirdAPICall(owGeoData);
-}
 
-function thirdAPICall(queryString) {
-    fetch(queryString, {
-        method: "GET",
-        credentials: "same-origin",
-        redirect: "follow",
-    })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            thirdDataSave(data);
-        });
-}
-
+//Save location data to variable
 function firstDataSave(apiData) {
     locationData = apiData;
-    console.log(locationData);
-    /*     console.log(locationData)
-      console.log(locationData.name)
-      console.log(locationData.country)
-      console.log(locationData.lat)
-      console.log(locationData.lon) */
+    /*     console.log(locationData);
+            console.log(locationData)
+          console.log(locationData.name)
+          console.log(locationData.country)
+          console.log(locationData.lat)
+          console.log(locationData.lon) */
 }
 
 function secondDataSave(currentData) {
     console.log(currentData);
     weatherIcon =
         "https://openweathermap.org/img/wn/" +
-       currentData.weather[0].icon +
+        currentData.weather[0].icon +
         ".png";
     $("#crnt-city").text(
-       currentData.name +
+        currentData.name +
         " (" +
         dayjs.unix(currentData.dt).format("D/M/YYYY") +
         ")"
     );
     $("#crnt-city").append("<img class='reponsive-img' src=" + weatherIcon + ">");
-    $("#crnt-temp").text("Temp: " +currentData.main.temp + "°C");
-    $("#crnt-wind").text("Wind: " +currentData.wind.speed + " km/h");
-    $("#crnt-humidity").text("Humidity: " +currentData.main.humidity + " %");
+    $("#crnt-temp").text("Temp: " + currentData.main.temp + "°C");
+    $("#crnt-wind").text("Wind: " + currentData.wind.speed + " km/h");
+    $("#crnt-humidity").text("Humidity: " + currentData.main.humidity + " %");
+    addToCollection(locationData.name, locationData.lat, locationData.lon)
 }
 
-function thirdDataSave(apiData) {
-    console.log(apiData);
-    console.log(locationData);
+// Add City to Cities Collection if it hasn't been added already
+
+function addToCollection(city, lat, lon) {
+    if (cities === null) {
+        cities = [[city, lat, lon]]
+    } else {
+        if (cities.findIndex((x) => x.includes(lat))===-1) {
+            cities.push([city, lat, lon])
+            cities.sort();
+        }
+    }
+    localStorage.setItem('collection', JSON.stringify(cities));
+    displayCities()
+}
+
+// Add the Cities Collection to Favourite Buttons
+function displayCities() {
+    if (cities !== null) {
+        for (let i = 0; i<cities.length; i++){
+            $('#city' + i).text(cities[i][0]);
+            $('#city' + i).show();
+        }
+    }
 }
