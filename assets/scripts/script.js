@@ -1,6 +1,6 @@
 // Globals
-const owUrl = 'https://api.openweathermap.org';
-const owApiKey = 'fd223c8245ed1b33feec8296469d3041';
+const owUrl = "https://api.openweathermap.org";
+const owApiKey = "fd223c8245ed1b33feec8296469d3041";
 
 var locationData = {};
 var currentData = {};
@@ -9,62 +9,75 @@ var cities = [];
 
 // Read Cities Collection from Local Storage
 // Reveal Cities Buttons
-cities = JSON.parse(localStorage.getItem('collection'));
-displayCities()
+cities = JSON.parse(localStorage.getItem("collection"));
+displayCities();
 
 // Click handler for search button - won't work until the page is fully loaded
-$(document).ready(function () {
-    $('#search-btn').click(function () {
-        firstDataLookup($('#location').val().trim().replaceAll(' ', '%20'));
+$(document).ready(() => {
+    $("#search-btn").click(() => {
+        firstDataLookup($("#location").val().trim().replaceAll(" ", "%20"));
     });
 });
 
-$(".saved-cities").click(function (event) {
+// Click handler to load saved cities data
+$(".saved-cities").click((event) => {
     let j = event.target.value;
-    console.log(j)
-    let lat = cities[j][1];
-    let lon = cities[j][2];
-    secondDataLookup(lat,lon);
-  });
+    locationData.name=  cities[j][0];
+    locationData.lat = cities[j][1];
+    locationData.lon = cities[j][2];
+    secondDataLookup(locationData.lat, locationData.lon);
+});
 
 // Check for Enter Key to search for location
-$('#location').on('keypress', function (event) {
-    if (event.key === 'Enter') {
-        $('#search-btn').click();
+$("#location").on("keypress", (event) => {
+    if (event.key === "Enter") {
+        $("#search-btn").click();
     }
 });
 
 // Event Handler for clicking in the Location Input Field
-$('#location').click(function () {
-    $('#location').val('');
+$("#location").click(() => {
+    $("#location").val("");
 });
 
 // Builds the query string to search for the city and return lat/long
 // will accept city, city/country or city/state/country, delimited by commas
 function firstDataLookup(target) {
-    console.log(cities)
     let state;
     let country;
     let city;
-    if (target.includes(',')) {                  // check if state &/or country supplied
-        let fullLocation = target.split(',')
-        console.log(fullLocation)
-        if (fullLocation.length === 2) {         // City & Country
+    if (target.includes(",")) {
+        // check if state &/or country supplied
+        let fullLocation = target.split(",");
+        console.log(fullLocation);
+        if (fullLocation.length === 2) {
+            // City & Country
             city = fullLocation[0];
             state = fullLocation[1];
             country = fullLocation[2];
-        } else if (fullLocation.length === 3) {  // City, State & Country
+        } else if (fullLocation.length === 3) {
+            // City, State & Country
             city = fullLocation[0];
-            state = '';
+            state = "";
             country = fullLocation[1];
-        } else {                                 // Invalid location data supplied
+        } else {
+            // Invalid location data supplied
         }
     } else {
         city = target;
-        state = '';
-        country = 'au';
+        state = "";
+        country = "au";
     }
-    const searchString = owUrl + '/geo/1.0/direct?q=' + city + ',' + state + ',' + country + '&limit=1&apikey=' + owApiKey;
+    const searchString =
+        owUrl +
+        "/geo/1.0/direct?q=" +
+        city +
+        "," +
+        state +
+        "," +
+        country +
+        "&limit=1&apikey=" +
+        owApiKey;
     firstAPICall(searchString);
 }
 
@@ -112,24 +125,16 @@ function secondAPICall(queryString) {
         });
 }
 
-
 //Save location data to variable
 function firstDataSave(apiData) {
-    locationData = apiData;
-    /*     console.log(locationData);
-            console.log(locationData)
-          console.log(locationData.name)
-          console.log(locationData.country)
-          console.log(locationData.lat)
-          console.log(locationData.lon) */
+    locationData.name = apiData.name;
+    locationData.lat = apiData.lat;
+    locationData.lon = apiData.lon;
 }
 
 function secondDataSave(currentData) {
-    console.log(currentData);
-    weatherIcon =
-        "https://openweathermap.org/img/wn/" +
-        currentData.weather[0].icon +
-        ".png";
+    let weatherIcon =
+        "https://openweathermap.org/img/wn/" + currentData.weather[0].icon + ".png";
     $("#crnt-city").text(
         currentData.name +
         " (" +
@@ -140,30 +145,30 @@ function secondDataSave(currentData) {
     $("#crnt-temp").text("Temp: " + currentData.main.temp + "°C");
     $("#crnt-wind").text("Wind: " + currentData.wind.speed + " km/h");
     $("#crnt-humidity").text("Humidity: " + currentData.main.humidity + " %");
-    addToCollection(locationData.name, locationData.lat, locationData.lon)
+    addToCollection(locationData.name, locationData.lat, locationData.lon);
 }
 
 // Add City to Cities Collection if it hasn't been added already
 
 function addToCollection(city, lat, lon) {
     if (cities === null) {
-        cities = [[city, lat, lon]]
+        cities = [[city, lat, lon]];
     } else {
-        if (cities.findIndex((x) => x.includes(lat))===-1) {
-            cities.push([city, lat, lon])
+        if (cities.findIndex((x) => x.includes(lat)) === -1) {
+            cities.push([city, lat, lon]);
             cities.sort();
         }
     }
-    localStorage.setItem('collection', JSON.stringify(cities));
-    displayCities()
+    localStorage.setItem("collection", JSON.stringify(cities));
+    displayCities();
 }
 
 // Add the Cities Collection to Favourite Buttons
 function displayCities() {
     if (cities !== null) {
-        for (let i = 0; i<cities.length; i++){
-            $('#city' + i).text(cities[i][0]);
-            $('#city' + i).show();
+        for (let i = 0; i < cities.length; i++) {
+            $("#city" + i).text(cities[i][0]);
+            $("#city" + i).show();
         }
     }
 }
