@@ -54,6 +54,9 @@ margin-top: 21px;
 
 }
 
+.city-list{
+    min-height: 500px;
+}
 input::placeholder {
 
     color: #848484;   
@@ -79,6 +82,7 @@ height: 1800px;
     justify-content: space-around;
     width: calc((100%) + 7px);
     margin-left: -5px;
+    min-height: 180px;
 }
 
 .future {

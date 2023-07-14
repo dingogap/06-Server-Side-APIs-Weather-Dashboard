@@ -25,14 +25,19 @@
                 </button>
             </div>
             <hr />
-            <div>
-                <button id="city0" value="0" class="saved-cities waves-effect waves-light btn" style="display: none;"></button>
-                <button id="city1" value="1" class="saved-cities waves-effect waves-light btn" style="display: none;"></button>
-                <button id="city2" value="2" class="saved-cities waves-effect waves-light btn" style="display: none;"></button>
-                <button id="city3" value="3" class="saved-cities waves-effect waves-light btn" style="display: none;"></button>
-                <button id="city4" value="4" class="saved-cities waves-effect waves-light btn" style="display: none;"></button>
-                <button id="city5" value="5" class="saved-cities waves-effect waves-light btn" style="display: none;"></button>
-                
+            <div class="city-list">
+                <button id="city0" value="0" class="saved-cities waves-effect waves-light btn"
+                    style="display: none;"></button>
+                <button id="city1" value="1" class="saved-cities waves-effect waves-light btn"
+                    style="display: none;"></button>
+                <button id="city2" value="2" class="saved-cities waves-effect waves-light btn"
+                    style="display: none;"></button>
+                <button id="city3" value="3" class="saved-cities waves-effect waves-light btn"
+                    style="display: none;"></button>
+                <button id="city4" value="4" class="saved-cities waves-effect waves-light btn"
+                    style="display: none;"></button>
+                <button id="city5" value="5" class="saved-cities waves-effect waves-light btn"
+                    style="display: none;"></button>
             </div>
 
         </div>
@@ -40,13 +45,13 @@
 
         <div class="col s12 m8 l9">
             <div class="today browser-default row">
-                <h4 id="crnt-city"></h4>
+                <h4 id="crnt-city" class="crnt"><span id="today-city"></span><span id="today-date"></span><img id="today-icon" class='reponsive-img'></img></h4>
 
-                <h5 id="crnt-temp"></h5>
+                <h5 id="crnt-temp" class="crnt"></h5>
 
-                <h5 id="crnt-wind"></h5>
+                <h5 id="crnt-wind" class="crnt"></h5>
 
-                <h5 id="crnt-humidity"></h5>
+                <h5 id="crnt-humidity" class="crnt"></h5>
             </div>
             <div class="forecast row">
                 <h4>5-Day Forecast</h4>
