@@ -1,4 +1,4 @@
-// Globals
+$// Globals
 const owUrl = "https://api.openweathermap.org";
 const owApiKey = "fd223c8245ed1b33feec8296469d3041";
 const collection = "weather"
@@ -12,10 +12,6 @@ var cities = [];
 cities = JSON.parse(localStorage.getItem(collection));
 displayCities();
 
-$('.city-list').on("contextmenu", (e) => {
-    return false;
-});
-
 // Click handler for search button - won't work until the page is fully loaded
 // Handle space characters & clear field
 $(document).ready(() => {
@@ -24,34 +20,40 @@ $(document).ready(() => {
     });
 });
 
-// Click handler to load saved cities data
-$(".saved-cities").click((event) => {
-    let j = event.target.value;
-    locationData.name = cities[j][0];
-    locationData.lat = cities[j][1];
-    locationData.lon = cities[j][2];
-    secondDataLookup(locationData.lat, locationData.lon);
-});
-
-// Mousedown Event to delete Cities from Saved Cities
-// Check for right click
-$(document).ready(() => {
-    $('.saved-cities').mousedown((event) => {
-        if (event.which === 3) {
-            let j = event.target.value;
-            /* console.log(`${cities[j][0]} - `+$('#today-city').text()) */
-            if (cities[j][0] === $('#today-city').text()) {
-                $('.crnt').text("")
-            }
-            cities.splice(
-                cities.findIndex((x) => x.includes(cities[j][1])),
-                1
-            );
-            localStorage.setItem(collection, JSON.stringify(cities));
-            displayCities();
+// Click handler for:
+//  - load Saved City Data
+//  - delete Saved City from Collection 
+$('.city-list').click((event) => {
+    console.log(event.target)
+    // delete City
+    if ($(event.target).hasClass("button-delete")) {
+        let j = event.target.parentElement.value;
+        console.log(event.target.parentElement.value)
+        console.log(cities[j][0] + "-" + $('#today-city').text())
+        if (cities[j][0] === $('#today-city').text()) {
+            $('#today-city').text("")
+            $('#today-date').text("")
+            $('#today-icon').attr('src', "")
+            $('#current-temp').text('')
+            $('#current-wind').text('')
+            $('#current-humidity').text('')
         }
+        cities.splice(
+            cities.findIndex((x) => x.includes(cities[j][1])),
+            1
+        );
+        localStorage.setItem(collection, JSON.stringify(cities));
+        displayCities();
+    }
+    // Load City Data
+    if ($(event.target).hasClass("saved-cities")) {
+        let j = event.target.value;
+        locationData.name = cities[j][0];
+        locationData.lat = cities[j][1];
+        locationData.lon = cities[j][2];
+        secondDataLookup(locationData.lat, locationData.lon);
+    }
 
-    })
 })
 
 // Check for Enter Key to search for location
@@ -60,8 +62,6 @@ $("#location").on("keypress", (event) => {
         $("#search-btn").click();
     }
 });
-
-
 
 // Event Handler for clicking in the Location Input Field
 $("#location").click(() => {
@@ -96,16 +96,7 @@ function firstDataLookup(target) {
         state = "";
         country = "au";
     }
-    const searchString =
-        owUrl +
-        "/geo/1.0/direct?q=" +
-        city +
-        "," +
-        state +
-        "," +
-        country +
-        "&limit=1&apikey=" +
-        owApiKey;
+    const searchString = owUrl + "/geo/1.0/direct?q=" + city + "," + state + "," + country + "&limit=1&apikey=" + owApiKey;
     firstAPICall(searchString);
 }
 
@@ -162,14 +153,17 @@ function firstDataSave(apiData) {
     locationData.lon = apiData.lon;
 }
 
+// Save current weather data to variable
 function secondDataSave(currentData) {
     let weatherIcon = "https://openweathermap.org/img/wn/" + currentData.weather[0].icon + ".png";
-    $("#today-city").text(locationData.name)
+    console.log(locationData.name)
+    console.log(currentData)
+    $("#today-city").text(currentData.name)
     $("#today-date").text("(" + dayjs.unix(currentData.dt).format("D/M/YYYY") + ")");
     $("#today-icon").attr('src', weatherIcon);
-    $("#crnt-temp").text("Temp: " + currentData.main.temp + "°C");
-    $("#crnt-wind").text("Wind: " + currentData.wind.speed + " km/h");
-    $("#crnt-humidity").text("Humidity: " + currentData.main.humidity + " %");
+    $("#current-temp").text("Temp: " + currentData.main.temp + "°C");
+    $("#current-wind").text("Wind: " + currentData.wind.speed + " km/h");
+    $("#current-humidity").text("Humidity: " + currentData.main.humidity + " %");
     addToCollection(locationData.name, locationData.lat, locationData.lon);
     $('#location').val('')
 }
@@ -193,10 +187,15 @@ function addToCollection(city, lat, lon) {
 // Clear cities list & repopulate
 function displayCities() {
     if (cities !== null) {
-        $('.saved-cities').hide()
+        $('.saved-cities').remove()
         for (let i = 0; i < cities.length; i++) {
-            $("#city" + i).text(cities[i][0]);
-            $("#city" + i).show();
+            addCityButton(i)
+            $("#city" + i).text(cities[i][0]).append('<i class="material-icons medium button-delete">delete</i>');
         }
     }
 }
+
+function addCityButton(k) {
+    $('.city-list').append('<button id="city' + k + '" value="' + k + '" class="saved-cities waves-effect waves-light grey btn"></button>')
+}
+
