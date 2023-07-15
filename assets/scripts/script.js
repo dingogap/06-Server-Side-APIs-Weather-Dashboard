@@ -20,6 +20,16 @@ $(document).ready(() => {
     });
 });
 
+for (let i = 0; i < 5; i++){
+    $('#card-list').append(`<div id="card${i}" class="card"></div>`)
+    $(`#card${i}`).append(`<span id="date${i}" class=""card-title">Date</span>`)
+    $(`#date${i}`).append(`<ul id="forecast${i}"></ul>`)
+    $(`#forecast${i}`).append(`<li id="icon${i}">icon</li>`)
+    $(`#forecast${i}`).append(`<li id="temp${i}">temp</li>`)
+    $(`#forecast${i}`).append(`<li id="wind${i}">wind</li>`)
+    $(`#forecast${i}`).append(`<li id="humidity${i}">humidity</li>`)
+}
+
 // Click handler for:
 //  - load Saved City Data
 //  - delete Saved City from Collection 
@@ -100,18 +110,18 @@ function firstDataLookup(target) {
     firstAPICall(searchString);
 }
 
-// Builds the Query String to retrieve current weather in metric
+// Builds the Query String to retrieve current weather
+// - in metric
 function secondDataLookup(lat, lon) {
-    const searchString =
-        owUrl +
-        "/data/2.5/weather?lat=" +
-        lat +
-        "&lon=" +
-        lon +
-        "&appid=" +
-        owApiKey +
-        "&units=metric";
+    const searchString = owUrl + "/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + owApiKey + "&units=metric";
     secondAPICall(searchString);
+}
+
+// Builds the Query String to retrieve weather forecast
+// - in metric
+function thirdDataLookup(lat, lon) {
+    const searchString = owUrl + "/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + owApiKey + "&units=metric&temp_min&temp_max";
+    thirdAPICall(searchString);
 }
 
 // Search OpenWeather for location data
@@ -142,7 +152,22 @@ function secondAPICall(queryString) {
         })
         .then(function (data) {
             secondDataSave(data);
-            /* thirdDataLookup(locationData.lat, locationData.lon); */
+            thirdDataLookup(locationData.lat, locationData.lon);
+        });
+}
+
+// Search OpenWeather for 5 Day Weather Forecast
+function thirdAPICall(queryString) {
+    fetch(queryString, {
+        method: "GET",
+        credentials: "same-origin",
+        redirect: "follow",
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            thirdDataSave(data);
         });
 }
 
@@ -156,7 +181,6 @@ function firstDataSave(apiData) {
 // Save current weather data to variable
 function secondDataSave(currentData) {
     let weatherIcon = "https://openweathermap.org/img/wn/" + currentData.weather[0].icon + ".png";
-    console.log(locationData.name)
     console.log(currentData)
     $("#today-city").text(currentData.name)
     $("#today-date").text("(" + dayjs.unix(currentData.dt).format("D/M/YYYY") + ")");
@@ -166,6 +190,11 @@ function secondDataSave(currentData) {
     $("#current-humidity").text("Humidity: " + currentData.main.humidity + " %");
     addToCollection(locationData.name, locationData.lat, locationData.lon);
     $('#location').val('')
+}
+
+//Save location data to variable
+function thirdDataSave(apiData) {
+    console.log(apiData)
 }
 
 // Add City to Cities Collection if it hasn't been added already - checking latitude
