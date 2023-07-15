@@ -20,15 +20,8 @@ $(document).ready(() => {
     });
 });
 
-for (let i = 0; i < 5; i++){
-    $('#card-list').append(`<div id="card${i}" class="card"></div>`)
-    $(`#card${i}`).append(`<span id="date${i}" class=""card-title">Date</span>`)
-    $(`#date${i}`).append(`<ul id="forecast${i}"></ul>`)
-    $(`#forecast${i}`).append(`<li id="icon${i}">icon</li>`)
-    $(`#forecast${i}`).append(`<li id="temp${i}">temp</li>`)
-    $(`#forecast${i}`).append(`<li id="wind${i}">wind</li>`)
-    $(`#forecast${i}`).append(`<li id="humidity${i}">humidity</li>`)
-}
+// Add Cards to display Forecast Data
+addCards();
 
 // Click handler for:
 //  - load Saved City Data
@@ -77,6 +70,7 @@ $("#location").on("keypress", (event) => {
 $("#location").click(() => {
     $("#location").val("");
 });
+
 
 // Builds the query string to search for the city and return lat/long
 // will accept city, city/country or city/state/country, delimited by commas
@@ -194,7 +188,11 @@ function secondDataSave(currentData) {
 
 //Save location data to variable
 function thirdDataSave(apiData) {
-    console.log(apiData)
+    console.log(apiData.cnt)
+    for (let i = 0; i < apiData.cnt; i++) {
+        //looping through days to find & publish daily data 
+    }
+
 }
 
 // Add City to Cities Collection if it hasn't been added already - checking latitude
@@ -227,4 +225,18 @@ function displayCities() {
 function addCityButton(k) {
     $('.city-list').append('<button id="city' + k + '" value="' + k + '" class="saved-cities waves-effect waves-light grey btn"></button>')
 }
+
+// Add Cards to display Forecast Data
+function addCards() {
+    for (let i = 0; i < 5; i++) {
+        $('#card-list').append(`<div id="card${i}" class="card"></div>`);
+        $(`#card${i}`).append(`<span id="date${i}" class=""card-title">Date</span>`);
+        $(`#date${i}`).append(`<ul id="forecast${i}"></ul>`);
+        $(`#forecast${i}`).append(`<li id="icon${i}">icon</li>`);
+        $(`#forecast${i}`).append(`<li id="temp${i}">temp</li>`);
+        $(`#forecast${i}`).append(`<li id="wind${i}">wind</li>`);
+        $(`#forecast${i}`).append(`<li id="humidity${i}">humidity</li>`);
+    }
+}
+
 
