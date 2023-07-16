@@ -1,4 +1,4 @@
-$// Globals
+// Globals
 const owUrl = "https://api.openweathermap.org";
 const owApiKey = "fd223c8245ed1b33feec8296469d3041";
 const ow1ApiKey = "807c3deef800497237a093dee3b33208"
@@ -7,6 +7,11 @@ var locationData = {};
 var currentData = {};
 var forecastData = {};
 var cities = [];
+
+
+
+
+
 
 // Read Cities Collection from Local Storage
 // Reveal Cities Buttons
@@ -124,11 +129,25 @@ function firstAPICall(queryString) {
         redirect: "follow",
     })
         .then(function (response) {
-            return response.json();
+                return response.json();   
         })
         .then(function (data) {
-            firstDataSave(data[0]);
-            secondDataLookup(locationData.lat, locationData.lon);
+            if (data.length > 0) {
+                firstDataSave(data[0]);
+                secondDataLookup(locationData.lat, locationData.lon);
+            } else {
+                console.log('error')
+                $("#modal-header").text(
+                    "We can't find the location you entered: " + $("#location").val().trim()
+                );
+                $("#message").append(
+                    '<p>Please check the name of the location and try again</p>'
+                );
+                $(".modal-close").text("Try Again");
+                $('.modal').modal();
+                $("#modal").modal("open");
+                return
+            }
         });
 }
 
@@ -199,7 +218,7 @@ function thirdDataSave(apiData) {
     function addCardDetails() {
         for (let i = 1; i < 6; i++) {
             $(`#card${i}`).empty();
-            
+
             $(`#card${i}`).append(`<ul id="sheet${i}" class="detail-list"></ul>`);
             $(`#sheet${i}`).append(`<li id="date${i}" class="detail forecast-date">Date</li>`);
             $(`#sheet${i}`).append(`<li id="icon${i}" class="detail forecast-item"></li>`);
