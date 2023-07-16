@@ -90,7 +90,7 @@ input[type="text"] {
 }
 
 hr {
-    margin-top: -15px;
+    margin-top: -13px;
     background-color: #aeaeae;
     width: 98%;
     margin-left: 0px;
@@ -100,12 +100,14 @@ hr {
     height: 1800px;
 }
 
+#city0 {margin-top: 24px;}
+
 .today {
     border: 2px solid #aeaeae;
     justify-content: space-around;
     width: calc((100%) + 7px);
     margin-left: -5px;
-    min-height: 180px;
+    min-height: 191px;
 }
 
 .current {
@@ -147,32 +149,14 @@ hr {
     font-size: 1.9rem
 }
 
-/* styling for large tablet */
-@media only screen and (max-width: 1180px) {
-    body {
-        background-color: lightblue;
-    }
-
-    .card {
-        min-width: 155px;
-    }
-
-    .detail {
-        margin: 6px 4px;
-    }
-}
-
-/* styling for small tablet - landscape */
+/* styling for large tablet - landscape */
 @media only screen and (max-width: 1200px) {
     body {
         background-color: lightgoldenrodyellow;
     }
 
     .future {
-        justify-content: flex-start;
-        gap: 12px;
-        margin-left: -5px;
-
+        gap: 8px;
     }
 
     .forecast h4 {
@@ -181,16 +165,13 @@ hr {
 
 
     .card {
-        min-width: 165px;
+        min-width: 160px;
+        width: auto;
     }
 
     .card:first-child {
-        margin-left: 9px;
+        margin-left: 5px;
     }
-
-  /*   .card:nth-child(5) {
-        margin-left: 9px;
-    } */
 
     .forecast-date {
         font-size: 1.7rem
@@ -201,6 +182,7 @@ hr {
         font-size: 1.2rem;
     }
 }
+
 /* styling for small tablet - landscape */
 @media only screen and (max-width: 1024px) {
     body {
