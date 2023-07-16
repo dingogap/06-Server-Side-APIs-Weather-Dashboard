@@ -1,28 +1,26 @@
 // Globals
 const owUrl = "https://api.openweathermap.org";
 const owApiKey = "fd223c8245ed1b33feec8296469d3041";
-const ow1ApiKey = "807c3deef800497237a093dee3b33208"
-const collection = "weather"
+const ow1ApiKey = "807c3deef800497237a093dee3b33208";
+const collection = "weather";
+var locationName;
 var locationData = {};
 var currentData = {};
 var forecastData = {};
 var cities = [];
 
-
-
-
-
-
 // Read Cities Collection from Local Storage
 // Reveal Cities Buttons
 cities = JSON.parse(localStorage.getItem(collection));
 displayCities();
+loadFirstLocation();
 
 // Click handler for search button - won't work until the page is fully loaded
 // Handle space characters & clear field
 $(document).ready(() => {
     $("#search-btn").click(() => {
-        firstDataLookup($("#location").val().trim().replaceAll(" ", "%20"));
+        locationName = $("#location").val();
+        firstDataLookup(locationName.trim().replaceAll(" ", "%20"));
     });
 });
 
@@ -31,25 +29,32 @@ addCards();
 
 // Click handler for:
 //  - load Saved City Data
-//  - delete Saved City from Collection 
-$('.city-list').click((event) => {
+//  - delete Saved City from Collection
+$(".city-list").click((event) => {
     // delete City
     if ($(event.target).hasClass("button-delete")) {
         let j = event.target.parentElement.value;
-        if (cities[j][0] === $('#today-city').text()) {
-            $('#today-city').text("");
-            $('#today-date').text("");
-            $('#today-icon').attr('src', "");
-            $('#current-temp').text('');
-            $('#current-wind').text('');
-            $('#current-humidity').text('');
+        if (cities[j][0] === $("#today-city").text()) {
+            $("#today-city").text("");
+            $("#today-date").text("");
+            $("#today-icon").attr("src", "");
+            $("#current-temp").text("");
+            $("#current-wind").text("");
+            $("#current-humidity").text("");
+            cities.splice(
+                cities.findIndex((x) => x.includes(cities[j][1])),
+                1
+            );
+            loadFirstLocation();
+        } else {
+            cities.splice(
+                cities.findIndex((x) => x.includes(cities[j][1])),
+                1
+            );
         }
-        cities.splice(
-            cities.findIndex((x) => x.includes(cities[j][1])),
-            1
-        );
         localStorage.setItem(collection, JSON.stringify(cities));
         displayCities();
+
     }
     // Load City Data
     if ($(event.target).hasClass("saved-cities")) {
@@ -59,8 +64,7 @@ $('.city-list').click((event) => {
         locationData.lon = cities[j][2];
         secondDataLookup(locationData.lat, locationData.lon);
     }
-
-})
+});
 
 // Check for Enter Key to search for location
 $("#location").on("keypress", (event) => {
@@ -74,6 +78,14 @@ $("#location").click(() => {
     $("#location").val("");
 });
 
+function loadFirstLocation() {
+    if (cities !== null) {
+        locationData.name = cities[0][0];
+        locationData.lat = cities[0][1];
+        locationData.lon = cities[0][2];
+        secondDataLookup(locationData.lat, locationData.lon);
+    }
+}
 
 // Builds the query string to search for the city and return lat/long
 // will accept city, city/country or city/state/country, delimited by commas
@@ -103,6 +115,7 @@ function firstDataLookup(target) {
         state = "";
         country = "au";
     }
+    $("#location").val("");
     const searchString = `${owUrl}/geo/1.0/direct?q=${city},${state},${country}&limit=1&apikey=${owApiKey}`;
     firstAPICall(searchString);
 }
@@ -129,24 +142,23 @@ function firstAPICall(queryString) {
         redirect: "follow",
     })
         .then(function (response) {
-                return response.json();   
+            return response.json();
         })
         .then(function (data) {
             if (data.length > 0) {
                 firstDataSave(data[0]);
                 secondDataLookup(locationData.lat, locationData.lon);
             } else {
-                console.log('error')
+                let errorMsg =
+                    "<p>Please check the name of the location and try again.</p><p>For Locations in Australia, enter the Name & click the Search Button.</p><p>For Locations outside Australia, enter the Name, a Comma (,) followed by the 2 Character Country Code (Whitby,GB) & click the Search Button.</p>";
                 $("#modal-header").text(
-                    "We can't find the location you entered: " + $("#location").val().trim()
+                    "We can't find the location you entered: " + locationName
                 );
-                $("#message").append(
-                    '<p>Please check the name of the location and try again</p>'
-                );
+                $("#message").html(errorMsg);
                 $(".modal-close").text("Try Again");
-                $('.modal').modal();
+                $(".modal").modal();
                 $("#modal").modal("open");
-                return
+                return;
             }
         });
 }
@@ -192,24 +204,26 @@ function firstDataSave(apiData) {
 // Save current weather data to variable
 function secondDataSave(currentData) {
     let weatherIcon = `https://openweathermap.org/img/wn/${currentData.weather[0].icon}.png`;
-    $("#today-city").text(currentData.name)
-    $("#today-date").text("(" + dayjs.unix(currentData.dt).format("D/M/YYYY") + ")");
-    $("#today-icon").attr('src', weatherIcon);
+    $("#today-city").text(currentData.name);
+    $("#today-date").text(
+        "(" + dayjs.unix(currentData.dt).format("D/M/YYYY") + ")"
+    );
+    $("#today-icon").attr("src", weatherIcon);
     $("#current-temp").text(`Temp: ${currentData.main.temp}°C`);
     $("#current-wind").text(`Wind: ${currentData.wind.speed} km/h`);
     $("#current-humidity").text(`Humidity: ${currentData.main.humidity} %`);
     addToCollection(locationData.name, locationData.lat, locationData.lon);
-    $('#location').val('')
+    $("#location").val("");
 }
 
 //Save location data to variable
 function thirdDataSave(apiData) {
-    let start
-    let now = dayjs().format("D/M/YYYY")
+    let start;
+    let now = dayjs().format("D/M/YYYY");
     if (now === dayjs.unix(apiData.daily[0].dt).format("D/M/YYYY")) {
-        start = 1
+        start = 1;
     } else {
-        start = 0
+        start = 0;
     }
     addCardDetails();
     fillCardDetails();
@@ -218,19 +232,27 @@ function thirdDataSave(apiData) {
     function addCardDetails() {
         for (let i = 1; i < 6; i++) {
             $(`#card${i}`).empty();
-
             $(`#card${i}`).append(`<ul id="sheet${i}" class="detail-list"></ul>`);
-            $(`#sheet${i}`).append(`<li id="date${i}" class="detail forecast-date">Date</li>`);
-            $(`#sheet${i}`).append(`<li id="icon${i}" class="detail forecast-item"></li>`);
-            $(`#sheet${i}`).append(`<li id="temp${i}" class="detail forecast-item">temp</li>`);
-            $(`#sheet${i}`).append(`<li id="wind${i}" class="detail forecast-item">wind</li>`);
-            $(`#sheet${i}`).append(`<li id="humidity${i}" class="detail forecast-item">humidity</li>`);
+            $(`#sheet${i}`).append(
+                `<li id="date${i}" class="detail forecast-date">Date</li>`
+            );
+            $(`#sheet${i}`).append(
+                `<li id="icon${i}" class="detail forecast-item"></li>`
+            );
+            $(`#sheet${i}`).append(
+                `<li id="temp${i}" class="detail forecast-item">temp</li>`
+            );
+            $(`#sheet${i}`).append(
+                `<li id="wind${i}" class="detail forecast-item">wind</li>`
+            );
+            $(`#sheet${i}`).append(
+                `<li id="humidity${i}" class="detail forecast-item">humidity</li>`
+            );
         }
     }
     // Add Data to Elements to show Weather Forecast Data
     function fillCardDetails() {
         for (let i = start; i < start + 5; i++) {
-            console.log(apiData.daily[i])
             //looping through days to find & publish daily data
             $(`#date${i}`).text(dayjs.unix(apiData.daily[i].dt).format("D/M/YYYY"));
             let weatherIcon = `https://openweathermap.org/img/wn/${apiData.daily[i].weather[0].icon}.png`;
@@ -261,24 +283,25 @@ function addToCollection(city, lat, lon) {
 // Clear cities list & repopulate
 function displayCities() {
     if (cities !== null) {
-        $('.saved-cities').remove()
+        $(".saved-cities").remove();
         for (let i = 0; i < cities.length; i++) {
-            addCityButton(i)
-            $(`#city${i}`).text(cities[i][0]).append('<i class="material-icons medium button-delete">delete</i>');
-
+            addCityButton(i);
+            $(`#city${i}`)
+                .text(cities[i][0])
+                .append('<i class="material-icons medium button-delete">delete</i>');
         }
     }
 }
 
 function addCityButton(k) {
-    $('.city-list').append(`<button id="city${k}" value="${k}" class="saved-cities waves-effect waves-light grey btn"></button>`)
+    $(".city-list").append(
+        `<button id="city${k}" value="${k}" class="saved-cities waves-effect waves-light grey btn"></button>`
+    );
 }
 
 // Add Cards to display Forecast Data
 function addCards() {
     for (let i = 1; i < 6; i++) {
-        $('#card-list').append(`<div id="card${i}" class="card"></div>`);
+        $("#card-list").append(`<div id="card${i}" class="card"></div>`);
     }
 }
-
-

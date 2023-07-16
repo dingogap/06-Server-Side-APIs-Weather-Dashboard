@@ -39,6 +39,10 @@ h5 {
     color: black;
 }
 
+#modal-hr {
+    margin-top: 22px;
+}
+
 .saved-cities:hover {
     background-color: #bdbdbd !important;
 }
