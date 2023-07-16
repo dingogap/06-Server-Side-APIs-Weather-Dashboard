@@ -304,3 +304,187 @@ hr {
     }
 
 }
+
+/* styling for small tablet - portrait */
+@media only screen and (max-width: 727px) {
+    .card {
+        min-width: 155px;
+    }
+
+    .card:first-child {
+        margin-left: 9px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 9px;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: 9px;
+    }
+
+}
+
+/* styling for small tablet - portrait */
+@media only screen and (max-width: 600px) {
+    .today {
+        margin-left: 0px !important;
+        width: 98%;
+    }
+
+    .forecast h4 {
+        margin-top: 4px;
+        margin-left: 12px;
+    }
+
+    .card {
+        min-width: 170px;
+    }
+
+    .card:first-child {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: -10px;
+    }
+
+}
+
+/* styling for small tablet - portrait */
+@media only screen and (max-width: 565px) {
+    .today {
+        margin-left: 0px !important;
+        width: 98%;
+    }
+
+    .card {
+        min-width: 160px;
+    }
+
+    .card:first-child {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: 0px;
+    }
+
+}
+
+/* styling for small tablet - portrait */
+@media only screen and (max-width: 511px) {
+    .today {
+        margin-left: 0px !important;
+        width: 98%;
+    }
+
+    .card {
+        min-width: 145px;
+    }
+
+    .card:first-child {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: 0px;
+    }
+
+}
+
+/* styling for phone - portrait */
+@media only screen and (max-width: 412px) {
+    .today {
+        margin-left: 0px !important;
+        width: 98%;
+    }
+
+    .card {
+        /* min-width: 170px; */
+        width: 42%;
+    }
+
+    .card:first-child {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: 20px;
+    }
+
+}
+
+/* styling for small phone - portrait */
+@media only screen and (max-width: 320px) {
+    .today {
+        margin-left: 0px !important;
+        width: 98%;
+    }
+
+    .card {
+        width: 39%;
+    }
+
+    .card:first-child {
+        margin-left: 10 px;
+    }
+
+    .card:nth-child(2) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: 20px;
+
+    }
+
+    .detail {
+        margin: 10px 10px;
+        font-size: 1.rem;
+    }
+}
