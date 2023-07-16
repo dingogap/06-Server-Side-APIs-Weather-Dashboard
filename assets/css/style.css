@@ -121,12 +121,22 @@ hr {
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
     width: 18%;
-    background-color: #323d43;
+    background-color: #4b60ad;
     height: 250px;
+    color: white;
 }
 
 #current-city {
     display: flex;
     align-items: center;
+}
+
+.forecast {
+    margin: 8px;
+}
+.forecast-date {
+    font-size: 1.9rem
 }
