@@ -1,14 +1,17 @@
-# My Weather Dashboard
+# Weather Dashboard
 
 ## Description
 
-My Weather Dashboard is a useful Weather Forecasting tool that will help me plan trips.
+My Weather Dashboard is a useful Weather Forecasting tool that could help me plan a range of trips.
 
-As a bushwalker it suits my trip planning requirement right now - day walks and multi-day trips in remote areas of the Australian bush.
+As a bushwalker the dashboard suits my trip planning requirement right now - day walks and multi-day trips in remote areas of the Australian bush.
 
-As an astrophotographer, photographing the Milky Way, Deep Sky Objects and night timelapse sequences I can see thew potential for extending the Weather Dashboard to get the information I need to plan these trips. At the moment I have to use 3 or 4 different apps or websites to get the information required.
+As an astrophotographer, photographing the Milky Way, Deep Sky Objects and night timelapse sequences in a range of locations I can see the potential for extending the Weather Dashboard to get more detailed weather information I need to plan these trips. At the moment I have to use 3 or 4 different apps or websites to get the information required.
 
 Data available through the OpenWeatherMap API will let me tailor my Weather Dashboard to provide the detailed information I need in one place. It's pretty exciting!
+
+## Server-Side APIs: Weather Dashboard Link
+Click the link to visit the Weather Dasboard
 
 
 
