@@ -200,12 +200,12 @@ function thirdDataSave(apiData) {
         for (let i = 1; i < 6; i++) {
             $(`#card${i}`).empty();
             
-            $(`#card${i}`).append(`<ul id="forecast${i}" class="forecast"></ul>`);
-            $(`#forecast${i}`).append(`<li id="date${i}" class="forecast forecast-date">Date</li>`);
-            $(`#forecast${i}`).append(`<li id="icon${i}" class="forecast"></li>`);
-            $(`#forecast${i}`).append(`<li id="temp${i}" class="forecast">temp</li>`);
-            $(`#forecast${i}`).append(`<li id="wind${i}" class="forecast">wind</li>`);
-            $(`#forecast${i}`).append(`<li id="humidity${i}" class="forecast">humidity</li>`);
+            $(`#card${i}`).append(`<ul id="sheet${i}" class="detail-list"></ul>`);
+            $(`#sheet${i}`).append(`<li id="date${i}" class="detail forecast-date">Date</li>`);
+            $(`#sheet${i}`).append(`<li id="icon${i}" class="detail forecast-item"></li>`);
+            $(`#sheet${i}`).append(`<li id="temp${i}" class="detail forecast-item">temp</li>`);
+            $(`#sheet${i}`).append(`<li id="wind${i}" class="detail forecast-item">wind</li>`);
+            $(`#sheet${i}`).append(`<li id="humidity${i}" class="detail forecast-item">humidity</li>`);
         }
     }
     // Add Data to Elements to show Weather Forecast Data
