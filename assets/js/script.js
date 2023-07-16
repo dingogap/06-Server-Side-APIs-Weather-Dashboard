@@ -41,9 +41,7 @@ $(".city-list").click((event) => {
             $("#current-temp").text("");
             $("#current-wind").text("");
             $("#current-humidity").text("");
-            /* for (let i = 1; i < 6; i++) {
-                $(`#card${i}`).empty();
-            } */
+
             cities.splice(
                 cities.findIndex((x) => x.includes(cities[j][1])),
                 1
