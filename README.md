@@ -33,7 +33,7 @@ Navigation is very simple:
 * Enter the Name of a Location & click Search
 
    * For Australia - just enter the Location Name: ',AU' will be added to automatically
-   * For other coutnries - enter the Location Name followed by a comma ',' and the 2 Character County Code (eg: Whitby, GB)
+   * For other countries - enter the Location Name followed by a comma ',' and the 2 Character County Code (eg: Whitby, GB)
 
 2: To view a Saved Location click on the button with the Location Name
 3. To delete a saved location click on the Garbage Can icon at the right hand end of the button 
