@@ -113,7 +113,7 @@ hr {
 }
 
 .current {
-    margin-left: 8px;
+    margin-left: 12px;
 }
 
 .forecast {
@@ -141,6 +141,7 @@ hr {
 #current-city {
     display: flex;
     align-items: center;
+    margin-top: 
 }
 
 .detail {
@@ -421,6 +422,34 @@ hr {
 
 }
 
+/* styling for small tablet - portrait */
+@media only screen and (max-width: 464px) {
+    .today {
+        margin-left: 0px !important;
+        width: 98%;
+    }
+
+    .card {
+        min-width: 145px;
+    }
+
+    .card:first-child {
+        margin-left: 20px;
+    }
+
+    .card:nth-child(3) {
+        margin-left: 20px !important;
+    }
+
+    .card:nth-child(4) {
+        margin-left: 0px;
+    }
+
+    .card:nth-child(5) {
+        margin-left: 20px;
+    }
+
+}
 /* styling for phone - portrait */
 @media only screen and (max-width: 412px) {
     .today {
