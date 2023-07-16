@@ -41,6 +41,9 @@ $(".city-list").click((event) => {
             $("#current-temp").text("");
             $("#current-wind").text("");
             $("#current-humidity").text("");
+            for (let i = 1; i < 6; i++) {
+                $(`#card${i}`).empty();
+            }
             cities.splice(
                 cities.findIndex((x) => x.includes(cities[j][1])),
                 1
@@ -79,7 +82,7 @@ $("#location").click(() => {
 });
 
 function loadFirstLocation() {
-    if (cities !== null) {
+    if (cities.length>0) {
         locationData.name = cities[0][0];
         locationData.lat = cities[0][1];
         locationData.lon = cities[0][2];
