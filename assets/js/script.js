@@ -41,9 +41,9 @@ $(".city-list").click((event) => {
             $("#current-temp").text("");
             $("#current-wind").text("");
             $("#current-humidity").text("");
-            for (let i = 1; i < 6; i++) {
+            /* for (let i = 1; i < 6; i++) {
                 $(`#card${i}`).empty();
-            }
+            } */
             cities.splice(
                 cities.findIndex((x) => x.includes(cities[j][1])),
                 1
@@ -207,7 +207,7 @@ function firstDataSave(apiData) {
 // Save current weather data to variable
 function secondDataSave(currentData) {
     let weatherIcon = `https://openweathermap.org/img/wn/${currentData.weather[0].icon}.png`;
-    $("#today-city").text(currentData.name);
+    $("#today-city").text(locationData.name);
     $("#today-date").text(
         "(" + dayjs.unix(currentData.dt).format("D/M/YYYY") + ")"
     );
