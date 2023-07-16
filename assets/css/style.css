@@ -183,6 +183,33 @@ hr {
     }
 }
 
+/* styling for large tablet - landscape */
+@media only screen and (max-width: 1180px) {
+    body {
+        background-color: lightpink;
+    }
+
+    .future {
+        gap: 7px;
+    }
+
+    .forecast h4 {
+        margin-top: 4px;
+    }
+
+
+    .card {
+        min-width: 153px;
+        width: auto;
+    }
+
+    .card:first-child {
+        margin-left: 5px;
+    }
+
+}
+
+
 /* styling for small tablet - landscape */
 @media only screen and (max-width: 1024px) {
     body {
@@ -243,6 +270,9 @@ hr {
 
     .card:nth-child(4) {
         margin-left: 9px;
+    }
+    .card:nth-child(5) {
+        margin-left: 0px;
     }
 
     .future {
