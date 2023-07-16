@@ -123,6 +123,7 @@ hr {
 .card {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     width: 18%;
     background-color: #4b60ad;
     height: 250px;
@@ -135,7 +136,7 @@ hr {
 }
 
 .forecast {
-    margin: 8px;
+    margin: 6px 8px;
 }
 .forecast-date {
     font-size: 1.9rem
