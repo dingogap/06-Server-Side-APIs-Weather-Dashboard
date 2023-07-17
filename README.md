@@ -17,9 +17,10 @@ Click the link to visit the deployed website: [Weather Dashboard][def1].
 
 In my implementation:
 1. JavaScript/jQuery is used to add/delete/modify elements as required to allow a dynamic interactive page
-2. Locations are saved automatically to the Weather Collection
-3. When the Dashboard loads it displays data for the 1st location in the collection (top button)
-4. Locations can be deleted
+2. Materialize is used as the CSS Framework
+3. Locations are saved automatically to the Weather Collection
+4. When the Dashboard loads it displays data for the 1st location in the collection (top button)
+5. Locations can be deleted
 
 ## Data
 1. Locations are automatically added to the Weather Collection in Local Storage

@@ -19,7 +19,7 @@ h5 {
 
 .btn {
     width: 98%;
-    margin-top: 26px;
+    margin-top: 29px;
     margin-bottom: 26px;
     height: 3rem;
 }
@@ -94,7 +94,7 @@ input[type="text"] {
 }
 
 hr {
-    margin-top: -13px;
+    margin-top: -8px;
     background-color: #aeaeae;
     width: 98%;
     margin-left: 0px;
@@ -113,7 +113,7 @@ hr {
     justify-content: space-around;
     width: calc((100%) + 7px);
     margin-left: -5px;
-    min-height: 191px;
+    min-height: 192px;
 }
 
 .current {
