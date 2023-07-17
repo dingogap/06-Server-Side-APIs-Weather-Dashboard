@@ -80,7 +80,7 @@ $("#location").click(() => {
 });
 
 function loadFirstLocation() {
-    if (cities.length>0) {
+    if (cities !== null && cities.length>0) {
         locationData.name = cities[0][0];
         locationData.lat = cities[0][1];
         locationData.lon = cities[0][2];
