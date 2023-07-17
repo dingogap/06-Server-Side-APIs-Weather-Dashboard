@@ -41,7 +41,6 @@ $(".city-list").click((event) => {
             $("#current-temp").text("");
             $("#current-wind").text("");
             $("#current-humidity").text("");
-
             cities.splice(
                 cities.findIndex((x) => x.includes(cities[j][1])),
                 1
@@ -80,11 +79,13 @@ $("#location").click(() => {
 });
 
 function loadFirstLocation() {
-    if (cities !== null && cities.length>0) {
+    if (cities !== null && cities.length > 0) {
         locationData.name = cities[0][0];
         locationData.lat = cities[0][1];
         locationData.lon = cities[0][2];
         secondDataLookup(locationData.lat, locationData.lon);
+    } else {
+        $('.detail-list').remove()
     }
 }
 
